@@ -1,0 +1,32 @@
+# ZCode CLI static surface scan (no execution)
+timestamp=2026-08-07T02:13:54Z
+
+## Locate zcode-cli binary
+app.asar present: /Applications/ZCode.app/Contents/Resources/app.asar
+(app.asar bundled)
+
+## ~/.zcode layout (top level)
+cli
+memory
+plugin-workspace
+skills
+tmp
+v2
+workspace
+
+## ~/.zcode/cli layout (top level)
+agents
+artifacts
+config.json
+db
+exec
+log
+memories
+plugins
+rollout
+
+## Any zcode-cli binary on PATH or in bundle?
+ls: /Users/aldi/.zcode/cli/bin: No such file or directory
+
+## Static strings in any zcode-cli binary — looking for a documented CLI flag surface
+(no unpacked zcode-cli binary found — likely inside app.asar)

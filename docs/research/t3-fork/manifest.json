@@ -1,0 +1,13 @@
+{
+  "name": "t3-fork-research-package",
+  "created": "2026-08-07",
+  "upstream": "https://github.com/pingdotgg/t3code",
+  "focus": [
+    "thin fork",
+    "provider SPI",
+    "ZCode zcode-cli interoperability",
+    "Qwen integration",
+    "minimal handoff",
+    "upstream sync"
+  ]
+}

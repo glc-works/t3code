@@ -1,0 +1,7 @@
+claim_id,area,claim,status,upstream_ref,file_path,symbol_or_lines,evidence,impact,confidence,follow_up
+T3-001,provider,"New driver can be added without orchestration changes",UNVERIFIED,,,,,,,
+ZC-001,zcode,"zcode-cli has stable structured transport",UNVERIFIED,,,,,,,
+ZC-002,zcode,"T3 integration preserves ZCode app-plan promo quota",UNVERIFIED,,,,,,,
+QW-001,qwen,"OpenCode route preserves Qwen Token Plan economics",UNVERIFIED,,,,,,,
+QW-002,qwen,"Native Qwen Code driver materially improves caching/session fidelity",UNVERIFIED,,,,,,,
+HO-001,handoff,"Human-triggered handoff can reuse existing thread/checkpoint model",UNVERIFIED,,,,,,,

@@ -1,0 +1,198 @@
+# ZCode CLI observation (Task C — transport classification)
+timestamp=2026-08-07T02:13:08Z
+macOS=26.5.2
+ZCode.app=3.6.5
+ZCode.app.bundle=dev.zcode.app
+
+## Process tree (ZCode → host → zcode-cli)
+  986     1 01-03:18:28 ZCode
+ 1010   986 01-03:18:24 zcode-host-local-1               
+ 1030  1010 01-03:18:24 zcode-cli   
+ 1031  1010 01-03:18:24 zcode-cli   
+ 1033  1010 01-03:18:24 zcode-cli   
+ 1429  1010 01-03:18:04 zcode-cli   
+ 2068  1030 01-03:16:10 zcode-cli   
+ 4701  1030 01-03:11:29 zcode-cli   
+27568  1010 01-00:20:18 zcode-cli   
+27763  1010 01-00:20:17 zcode-cli   
+27961  1010 01-00:20:16 zcode-cli   
+28153  1010 01-00:20:15 zcode-cli   
+28352  1010 01-00:20:15 zcode-cli   
+28544  1010 01-00:20:14 zcode-cli   
+28845  1030 01-00:19:44 zcode-cli   
+51631  1030    23:26:59 zcode-cli   
+57313  1030    02:15:59 zcode-cli   
+63767  1030    22:45:06 zcode-cli   
+69921  1030    01:13:59 zcode-cli   
+88537  1030       00:00 /bin/zsh -c . '/Users/aldi/.zcode/cli/exec/shell-snapshots/snapshot-zsh-1786064444210-sdgk54.sh' 2>/dev/null || true\012. '/Users/aldi/.zcode/cli/exec/bash-startup/sess_0736664c-164c-42bf-b169-d903d0866ab3/embedded-search-startup-fb575a465fae58d3.sh'\012cd /tmp/t3-fork-work/t3code\012# Run the observe script but capture to a controlled path, redact nothing it doesn't already redact.\012# Probe the longest-lived worker tree (PID 1030) which is NOT my own controlling process.\012OUT=docs/research/t3-fork/evidence/zcode-cli-observation-$(date +%Y%m%d-%H%M%S).txt\012mkdir -p docs/research/t3-fork/evidence\012# Adapt the script to observe the root worker specifically\012{\012  echo "# ZCode CLI observation (Task C — transport classification)"\012  echo "timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)"\012  echo "macOS=$(sw_vers -productVersion 2>/dev/null || true)"\012  echo "ZCode.app=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' /Applications/ZCode.app/Contents/Info.plist 2>/dev/null || true)"\012  echo "ZCode.app.bundle=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' /Applications/ZCode.app/Contents/Info.plist 2>/dev/null || true)"\012  echo\012  echo "## Process tree (ZCode → host → zcode-cli)"\012  ps -axo pid=,ppid=,etime=,command= | grep -E '[z]code-cli|[z]code-host|^[ ]*986 |^  *986 ' | head -40\012  echo\012  echo "## Root worker PID 1030 (long-lived zcode-cli)"\012  ps -p 1030 -o pid=,ppid=,etime=,command= || true\012  echo\012  echo "### Network (TCP/UDP) for PID 1030"\012  lsof -nP -a -p 1030 -i 2>/dev/null || true\012  echo\012  echo "### Unix sockets for PID 1030"\012  lsof -nP -a -p 1030 -U 2>/dev/null || true\012  echo\012  echo "### Open files of PID 1030 that look like transports (sockets, pipes, pty, sockets) — filtered"\012  lsof -nP -p 1030 2>/dev/null | awk '$5 ~ /^(IPv4|IPv6|unix|PIPE|CHR|sock|stream|dgram)$/ || /socket|pipe|tty|pty/ {print}' | head -40\012} > "$OUT"\012echo "wrote $OUT"\012wc -l "$OUT"\012__zcode_status=$?\012if [ "$__zcode_status" -eq 0 ]; then pwd -P > '/var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/zcode-9f0d0e37-6fda-4007-b9de-53dc9b9ea7de-cwd'; fi\012exit "$__zcode_status"
+88549 88537       00:00 /bin/zsh -c . '/Users/aldi/.zcode/cli/exec/shell-snapshots/snapshot-zsh-1786064444210-sdgk54.sh' 2>/dev/null || true\012. '/Users/aldi/.zcode/cli/exec/bash-startup/sess_0736664c-164c-42bf-b169-d903d0866ab3/embedded-search-startup-fb575a465fae58d3.sh'\012cd /tmp/t3-fork-work/t3code\012# Run the observe script but capture to a controlled path, redact nothing it doesn't already redact.\012# Probe the longest-lived worker tree (PID 1030) which is NOT my own controlling process.\012OUT=docs/research/t3-fork/evidence/zcode-cli-observation-$(date +%Y%m%d-%H%M%S).txt\012mkdir -p docs/research/t3-fork/evidence\012# Adapt the script to observe the root worker specifically\012{\012  echo "# ZCode CLI observation (Task C — transport classification)"\012  echo "timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)"\012  echo "macOS=$(sw_vers -productVersion 2>/dev/null || true)"\012  echo "ZCode.app=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' /Applications/ZCode.app/Contents/Info.plist 2>/dev/null || true)"\012  echo "ZCode.app.bundle=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' /Applications/ZCode.app/Contents/Info.plist 2>/dev/null || true)"\012  echo\012  echo "## Process tree (ZCode → host → zcode-cli)"\012  ps -axo pid=,ppid=,etime=,command= | grep -E '[z]code-cli|[z]code-host|^[ ]*986 |^  *986 ' | head -40\012  echo\012  echo "## Root worker PID 1030 (long-lived zcode-cli)"\012  ps -p 1030 -o pid=,ppid=,etime=,command= || true\012  echo\012  echo "### Network (TCP/UDP) for PID 1030"\012  lsof -nP -a -p 1030 -i 2>/dev/null || true\012  echo\012  echo "### Unix sockets for PID 1030"\012  lsof -nP -a -p 1030 -U 2>/dev/null || true\012  echo\012  echo "### Open files of PID 1030 that look like transports (sockets, pipes, pty, sockets) — filtered"\012  lsof -nP -p 1030 2>/dev/null | awk '$5 ~ /^(IPv4|IPv6|unix|PIPE|CHR|sock|stream|dgram)$/ || /socket|pipe|tty|pty/ {print}' | head -40\012} > "$OUT"\012echo "wrote $OUT"\012wc -l "$OUT"\012__zcode_status=$?\012if [ "$__zcode_status" -eq 0 ]; then pwd -P > '/var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/zcode-9f0d0e37-6fda-4007-b9de-53dc9b9ea7de-cwd'; fi\012exit "$__zcode_status"
+
+## Root worker PID 1030 (long-lived zcode-cli)
+ 1030  1010 01-03:18:24 zcode-cli   
+
+### Network (TCP/UDP) for PID 1030
+COMMAND    PID USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+ZCode\x20 1030 aldi   56u  IPv4 0xc2d9ef6469089937      0t0  TCP 192.168.31.75:59030->163.181.47.35:443 (ESTABLISHED)
+ZCode\x20 1030 aldi   90u  IPv4 0xd27119782649509e      0t0  TCP 192.168.31.75:58443->39.97.141.140:443 (ESTABLISHED)
+ZCode\x20 1030 aldi   95u  IPv4 0x32f4b14d2dd2253f      0t0  TCP 192.168.31.75:58426->39.97.141.140:443 (ESTABLISHED)
+ZCode\x20 1030 aldi  108u  IPv4 0xa44642b00a2628a0      0t0  TCP 192.168.31.75:59093->163.181.47.35:443 (ESTABLISHED)
+
+### Unix sockets for PID 1030
+COMMAND    PID USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+ZCode\x20 1030 aldi    0u  unix 0x8463882303af8991      0t0      ->0x82adad774e64e5b8
+ZCode\x20 1030 aldi    1u  unix 0x7bfe54315e7da57f      0t0      ->0x99fa7110c3498c5d
+ZCode\x20 1030 aldi    2u  unix 0x823c9c14aef2cef3      0t0      ->0xe660dd290b631194
+ZCode\x20 1030 aldi   18u  unix 0x9a7bf8aedecc7441      0t0      /var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/znr-65121f10-6dcd-4a99-8efd-d3369f26e6cb.sock
+ZCode\x20 1030 aldi   19u  unix 0x2365be76f8bf094f      0t0      ->0x51d0ec13c91b910a
+ZCode\x20 1030 aldi   20u  unix 0x449e67bfd50bdfb8      0t0      ->0xb8fe14efeb4a5ced
+ZCode\x20 1030 aldi   21u  unix 0x7cfae45873c7c758      0t0      ->0xbbd597bfdcfe0b07
+ZCode\x20 1030 aldi   23u  unix 0xf9db99b509b9e917      0t0      ->0x44ed312a788170a0
+ZCode\x20 1030 aldi   24u  unix 0xb36d276d98b27e9a      0t0      ->0x3b3549b99c06478e
+ZCode\x20 1030 aldi   25u  unix 0x233dc66d87058519      0t0      ->0x9aa86865649d64a5
+ZCode\x20 1030 aldi   26u  unix 0x9e2db15c130d3fda      0t0      ->0x9c4af1eef194e99c
+ZCode\x20 1030 aldi   27u  unix 0xf246e2ebc4fafa02      0t0      /var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/znr-eeedb182-1179-4e6f-a2b8-38c216dc5b59.sock
+ZCode\x20 1030 aldi   28u  unix 0x3a374a88b9e734cc      0t0      ->0xa91477bda8db6a9f
+ZCode\x20 1030 aldi   29u  unix 0x21d119e493ae6c70      0t0      ->0x4af367e3ebd3fabe
+ZCode\x20 1030 aldi   30u  unix 0x4216e763c8f85a8d      0t0      ->0x119da0433fd16197
+ZCode\x20 1030 aldi   32u  unix 0x74b166e6e7ad4f42      0t0      ->0x90d3ed2e1cae46e7
+ZCode\x20 1030 aldi   33u  unix 0xd1f7bf06a6aa5413      0t0      ->0xcbf010348f4ddde1
+ZCode\x20 1030 aldi   34u  unix 0x965a3c9a0283e82d      0t0      ->0xccade82f60e2243
+ZCode\x20 1030 aldi   35u  unix 0xcd6f244997e98afb      0t0      ->0xee153e673cd08326
+ZCode\x20 1030 aldi   36u  unix 0x25f65666142438ae      0t0      ->0x98640789361b5491
+ZCode\x20 1030 aldi   37u  unix 0x55bb7145b022e5db      0t0      /var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/znr-7358f84b-702f-4471-b93d-23129d5d6eca.sock
+ZCode\x20 1030 aldi   38u  unix 0x402b026128371599      0t0      ->0x42d508325b90d750
+ZCode\x20 1030 aldi   39u  unix 0x35725e7b308dd160      0t0      ->0xfe870565c0242126
+ZCode\x20 1030 aldi   40u  unix 0x4ae55f57905ed87c      0t0      ->0xa47f7566126d2742
+ZCode\x20 1030 aldi   41u  unix 0xe44a358eb985a7b6      0t0      ->0x86474ed6a7082148
+ZCode\x20 1030 aldi   42u  unix 0xeb64f2629542b160      0t0      ->0x479365899e627cf9
+ZCode\x20 1030 aldi   43u  unix 0x721803339ec9c804      0t0      ->0xfb1921e89ded7270
+ZCode\x20 1030 aldi   44u  unix 0x2d2dcf2a68f76cdc      0t0      ->0xba072873eaf7f7d5
+ZCode\x20 1030 aldi   45u  unix 0x1f22118e7b0da49c      0t0      ->0x3831f5ce081cda6
+ZCode\x20 1030 aldi   46u  unix 0x9e74ec91ce278f65      0t0      ->0xf4c67679e40a02db
+ZCode\x20 1030 aldi   47u  unix 0x280b933a0d789a1d      0t0      ->0xec470464baebf59d
+ZCode\x20 1030 aldi   48u  unix 0x9d112a1470abe484      0t0      ->0xd521c09024c3a82a
+ZCode\x20 1030 aldi   49u  unix 0xddc8f3dfc5f09751      0t0      ->0x7b33122477f8d813
+ZCode\x20 1030 aldi   50u  unix 0x71e749e74954455d      0t0      ->0x54a11f75c2f4c1cc
+ZCode\x20 1030 aldi   51u  unix 0x9417c354ab139fa7      0t0      ->0xb819e2f062858ae1
+ZCode\x20 1030 aldi   52u  unix 0x48629bb99357f4e8      0t0      ->0x41862a6502806cbc
+ZCode\x20 1030 aldi   53u  unix 0x5e51946bb429abf7      0t0      ->0xfb6dd9d3eff638cf
+ZCode\x20 1030 aldi   54u  unix 0x935cc161f324145a      0t0      ->0xc353fc751ec8dafc
+ZCode\x20 1030 aldi   55u  unix 0xa1d8f3dbe4c689e5      0t0      ->0x3896483f1a89785a
+ZCode\x20 1030 aldi   57u  unix 0x5c60068f10523d8a      0t0      ->0xf5ccf258f998c446
+ZCode\x20 1030 aldi   58u  unix 0x930b179ea97e7ebd      0t0      ->0xdace379acfe50f1b
+ZCode\x20 1030 aldi   59u  unix  0xd68bca257777b78      0t0      ->0xc67a6285b0d4f023
+ZCode\x20 1030 aldi   60u  unix 0xbc71bc0473f27983      0t0      ->0x446d646d60cc0a17
+ZCode\x20 1030 aldi   61u  unix 0x7929a6da19673e31      0t0      ->0xe22ec3585bcdeb7b
+ZCode\x20 1030 aldi   62u  unix 0x59457404efe1341f      0t0      /var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/znr-ddc757da-daf0-4112-ae41-6f09c3d3ddc8.sock
+ZCode\x20 1030 aldi   63u  unix 0x276b9e72e87998af      0t0      ->0x99f96edd49989396
+ZCode\x20 1030 aldi   64u  unix 0x4c7920e0cecc3ce5      0t0      ->0x480fd3dca8cee918
+ZCode\x20 1030 aldi   65u  unix 0x80a9663a54eadec7      0t0      ->0x38b78b61bf16c097
+ZCode\x20 1030 aldi   66u  unix 0x812b9332c0f8c0fd      0t0      /var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/znr-c3dd9153-0c31-4a03-a2ee-6ec2a0702554.sock
+ZCode\x20 1030 aldi   67u  unix 0xc0c36bc92260d101      0t0      ->0xe4fa5db0a4fe44bc
+ZCode\x20 1030 aldi   68u  unix 0x926b33716f2f74b5      0t0      ->0x7c1885d1dba39bcb
+ZCode\x20 1030 aldi   69u  unix 0xad0ea238b199f756      0t0      ->0x9db530daaa8a8f7b
+ZCode\x20 1030 aldi   70u  unix 0x8c0dcecaf6457928      0t0      ->0x159d99d40769cd6
+ZCode\x20 1030 aldi   71u  unix 0xc1b79a881ef309ea      0t0      ->0x224780a1ccdc01ff
+ZCode\x20 1030 aldi   72u  unix 0xddea8a31a72ddf86      0t0      ->0x9fa9c99f489fd4ab
+ZCode\x20 1030 aldi   73u  unix 0x2ff262c3d92bb640      0t0      ->0x5ac2630abaa5083d
+ZCode\x20 1030 aldi   74u  unix 0x57d10b80516f0666      0t0      ->0x6cb5f37faaf87a93
+ZCode\x20 1030 aldi   75u  unix 0xf4d8888cc788c347      0t0      ->0x60672e8db944405a
+ZCode\x20 1030 aldi   76u  unix 0x51cc6e5794bc5e83      0t0      ->0x9b1c12d8d25d056
+ZCode\x20 1030 aldi   77u  unix 0xbe9b51ec05f1d7ea      0t0      ->0xfe05423018322de5
+ZCode\x20 1030 aldi   78u  unix 0xab7010a13772b678      0t0      ->0x31eccb3c006c6478
+ZCode\x20 1030 aldi   79u  unix 0x2bc0ade612c70315      0t0      ->0x30cc6759a0dc5105
+ZCode\x20 1030 aldi   80u  unix 0xb16afa6499c52938      0t0      ->0x34a99d21367b580f
+ZCode\x20 1030 aldi   81u  unix 0x61ab329842633224      0t0      ->0xb9b1ef37a2e77df5
+ZCode\x20 1030 aldi   82u  unix 0x37ecde1bd57737d0      0t0      ->0x2aec60db710b7785
+ZCode\x20 1030 aldi   83u  unix 0x7300916f87618922      0t0      ->0x5ba470dbf1cd862e
+ZCode\x20 1030 aldi   84u  unix 0xdee1953007ac5e00      0t0      ->0x860dc9f7d5a015c2
+ZCode\x20 1030 aldi   85u  unix 0x7a4067b71c0852a1      0t0      ->0xe72f8f937943c484
+ZCode\x20 1030 aldi   86u  unix 0x753a7340f8151051      0t0      ->0xaf85ddfacd6d6983
+ZCode\x20 1030 aldi   87u  unix 0x55f50b0fb4e21526      0t0      ->0xbea6855f2e45b2cf
+ZCode\x20 1030 aldi   88u  unix 0xcc6e2e8806186caa      0t0      ->0xcdf59ccf0a2f42c
+ZCode\x20 1030 aldi   89u  unix 0x9f1f75236fb18732      0t0      ->0x2d625c50f194f94e
+ZCode\x20 1030 aldi   91u  unix  0x88eec32b633cba4      0t0      ->0x5a24952fff7345c8
+ZCode\x20 1030 aldi   92u  unix 0xeb1d5a9568c329e9      0t0      ->0xdbe3a3a6610be305
+ZCode\x20 1030 aldi   93u  unix 0x8d037f0de42890ef      0t0      ->0x783bdfbe00ed3271
+ZCode\x20 1030 aldi   94u  unix 0x9cbc796309c5a6aa      0t0      ->0xd02f9d3a650abb56
+ZCode\x20 1030 aldi   96u  unix 0x7b6ff94aa1e45d5d      0t0      ->0x78aafdfac14edb8b
+ZCode\x20 1030 aldi   97u  unix 0xdfbc41ad576c5d51      0t0      /var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/znr-6809e09b-77f7-4c04-9ae0-a7abff85350b.sock
+ZCode\x20 1030 aldi   98u  unix 0x5dd50295305cf8e4      0t0      ->0x4b5217783ac757cd
+ZCode\x20 1030 aldi   99u  unix 0xb6aa3eb1d25f9dba      0t0      ->0xc90c42a59f85983c
+ZCode\x20 1030 aldi  100u  unix 0x724aea878872cc91      0t0      ->0x6e78c19537b5ed4
+ZCode\x20 1030 aldi  101u  unix 0xa5ec8f71d88650c2      0t0      ->0x652f5f883faf73cf
+ZCode\x20 1030 aldi  102u  unix 0x6fd4530fa50c42b6      0t0      ->0x65d0d249a3cc3b71
+ZCode\x20 1030 aldi  103u  unix 0xaacd945e4e3144a6      0t0      ->0x9f5ade9069bbdd28
+ZCode\x20 1030 aldi  104u  unix 0x156abd132702a132      0t0      ->0xf63ea13b9774bdae
+ZCode\x20 1030 aldi  105u  unix 0x9941d1e76fbf49cd      0t0      ->0x8e24e1e4516d4d3c
+ZCode\x20 1030 aldi  106u  unix 0x7252a6a95114e8eb      0t0      ->0x2bebf9079af9a065
+ZCode\x20 1030 aldi  107u  unix 0xba17b40ff1a2bb3e      0t0      ->0xb566fe891e5e88c1
+ZCode\x20 1030 aldi  109u  unix 0xcb5de96baee45c72      0t0      ->0x931f0a6f7211f309
+ZCode\x20 1030 aldi  110u  unix 0xd881c5a7bcab64cf      0t0      ->0x856d3e080162e1bd
+ZCode\x20 1030 aldi  111u  unix 0x5726ad15a56baf57      0t0      ->0x9b1f1fdec3f6955
+ZCode\x20 1030 aldi  112u  unix 0x5e63c015c0b02904      0t0      ->0xfd4becfcae2bef58
+ZCode\x20 1030 aldi  113u  unix 0xa492cacc2030df1f      0t0      /var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/znr-a72f410a-9632-4de3-ad8c-54074dd96f00.sock
+ZCode\x20 1030 aldi  114u  unix 0x588c9add46a511b5      0t0      ->0x25e55b3f26106283
+ZCode\x20 1030 aldi  115u  unix  0xa498e15db01e24c      0t0      ->0xe94aeca7b19d2a61
+ZCode\x20 1030 aldi  116u  unix 0x160bc9ba7833f069      0t0      ->0xa4ff26b4049a94d6
+ZCode\x20 1030 aldi  117u  unix 0xa0a662cf2fc7cd67      0t0      ->0xbca22094012be65c
+ZCode\x20 1030 aldi  118u  unix  0xff10d4db3915319      0t0      ->0xae1e276444cc32c1
+ZCode\x20 1030 aldi  119u  unix 0x120f66caff9110e0      0t0      ->0xb34284bf36b66ee8
+ZCode\x20 1030 aldi  120u  unix 0x97a68cb140d81253      0t0      ->0x5bdb766fba6ffae6
+ZCode\x20 1030 aldi  121u  unix 0xb5589777a31ed7a7      0t0      ->0xb382a4aeb4de8bab
+ZCode\x20 1030 aldi  122u  unix  0xecef1852830c464      0t0      ->0xd88202a4e3d449ea
+ZCode\x20 1030 aldi  123u  unix 0x70861a02055a7748      0t0      ->0xe28bcc30fdffe3ee
+ZCode\x20 1030 aldi  124u  unix 0xefa7a7fa4e356d1f      0t0      ->0xd2551a55fcffe158
+ZCode\x20 1030 aldi  126u  unix 0xdc4ef0e110863255      0t0      ->0x2a4101389d09c02e
+ZCode\x20 1030 aldi  127u  unix 0x1d94e91a95db0320      0t0      ->0x5559cfb86880e59f
+ZCode\x20 1030 aldi  128u  unix   0x49c5dbe933c82b      0t0      ->0x6b5b76490f6070ff
+ZCode\x20 1030 aldi  129u  unix 0xe95d3d9a93b54c99      0t0      ->0x2825511193f5ae21
+ZCode\x20 1030 aldi  130u  unix 0x632f764d2341eb48      0t0      ->0x72355c3eeec28ef6
+ZCode\x20 1030 aldi  131u  unix 0xce93e230ba6c1b04      0t0      ->0x5493c0506b70e1e7
+ZCode\x20 1030 aldi  133u  unix 0x71f25baf393b774c      0t0      ->0x10e1362ee164bea1
+ZCode\x20 1030 aldi  134u  unix 0x6d94c5678e92807c      0t0      ->0x385b851a69fe482b
+ZCode\x20 1030 aldi  135u  unix 0x7b741befb4aeca29      0t0      ->0x715b8307a16b1bc2
+ZCode\x20 1030 aldi  136u  unix 0xdee52e153913ad8c      0t0      ->0x5df85689b38dd6c6
+ZCode\x20 1030 aldi  138u  unix 0xd40a0bd108d8444f      0t0      ->0x1e30ce8e4843dc64
+
+### Open files of PID 1030 that look like transports (sockets, pipes, pty, sockets) — filtered
+ZCode\x20 1030 aldi    0u     unix 0x8463882303af8991       0t0                     ->0x82adad774e64e5b8
+ZCode\x20 1030 aldi    1u     unix 0x7bfe54315e7da57f       0t0                     ->0x99fa7110c3498c5d
+ZCode\x20 1030 aldi    2u     unix 0x823c9c14aef2cef3       0t0                     ->0xe660dd290b631194
+ZCode\x20 1030 aldi    5      PIPE 0xc91234ee9c9193a8     16384                     ->0xae3eac62719de043
+ZCode\x20 1030 aldi    6      PIPE 0xae3eac62719de043     16384                     ->0xc91234ee9c9193a8
+ZCode\x20 1030 aldi   14r      CHR                3,2       0t0                 336 /dev/null
+ZCode\x20 1030 aldi   18u     unix 0x9a7bf8aedecc7441       0t0                     /var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/znr-65121f10-6dcd-4a99-8efd-d3369f26e6cb.sock
+ZCode\x20 1030 aldi   19u     unix 0x2365be76f8bf094f       0t0                     ->0x51d0ec13c91b910a
+ZCode\x20 1030 aldi   20u     unix 0x449e67bfd50bdfb8       0t0                     ->0xb8fe14efeb4a5ced
+ZCode\x20 1030 aldi   21u     unix 0x7cfae45873c7c758       0t0                     ->0xbbd597bfdcfe0b07
+ZCode\x20 1030 aldi   23u     unix 0xf9db99b509b9e917       0t0                     ->0x44ed312a788170a0
+ZCode\x20 1030 aldi   24u     unix 0xb36d276d98b27e9a       0t0                     ->0x3b3549b99c06478e
+ZCode\x20 1030 aldi   25u     unix 0x233dc66d87058519       0t0                     ->0x9aa86865649d64a5
+ZCode\x20 1030 aldi   26u     unix 0x9e2db15c130d3fda       0t0                     ->0x9c4af1eef194e99c
+ZCode\x20 1030 aldi   27u     unix 0xf246e2ebc4fafa02       0t0                     /var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/znr-eeedb182-1179-4e6f-a2b8-38c216dc5b59.sock
+ZCode\x20 1030 aldi   28u     unix 0x3a374a88b9e734cc       0t0                     ->0xa91477bda8db6a9f
+ZCode\x20 1030 aldi   29u     unix 0x21d119e493ae6c70       0t0                     ->0x4af367e3ebd3fabe
+ZCode\x20 1030 aldi   30u     unix 0x4216e763c8f85a8d       0t0                     ->0x119da0433fd16197
+ZCode\x20 1030 aldi   32u     unix 0x74b166e6e7ad4f42       0t0                     ->0x90d3ed2e1cae46e7
+ZCode\x20 1030 aldi   33u     unix 0xd1f7bf06a6aa5413       0t0                     ->0xcbf010348f4ddde1
+ZCode\x20 1030 aldi   34u     unix 0x965a3c9a0283e82d       0t0                     ->0xccade82f60e2243
+ZCode\x20 1030 aldi   35u     unix 0xcd6f244997e98afb       0t0                     ->0xee153e673cd08326
+ZCode\x20 1030 aldi   36u     unix 0x25f65666142438ae       0t0                     ->0x98640789361b5491
+ZCode\x20 1030 aldi   37u     unix 0x55bb7145b022e5db       0t0                     /var/folders/54/sw11my4944q4s7y26yb5qrf80000gn/T/znr-7358f84b-702f-4471-b93d-23129d5d6eca.sock
+ZCode\x20 1030 aldi   38u     unix 0x402b026128371599       0t0                     ->0x42d508325b90d750
+ZCode\x20 1030 aldi   39u     unix 0x35725e7b308dd160       0t0                     ->0xfe870565c0242126
+ZCode\x20 1030 aldi   40u     unix 0x4ae55f57905ed87c       0t0                     ->0xa47f7566126d2742
+ZCode\x20 1030 aldi   41u     unix 0xe44a358eb985a7b6       0t0                     ->0x86474ed6a7082148
+ZCode\x20 1030 aldi   42u     unix 0xeb64f2629542b160       0t0                     ->0x479365899e627cf9
+ZCode\x20 1030 aldi   43u     unix 0x721803339ec9c804       0t0                     ->0xfb1921e89ded7270
+ZCode\x20 1030 aldi   44u     unix 0x2d2dcf2a68f76cdc       0t0                     ->0xba072873eaf7f7d5
+ZCode\x20 1030 aldi   45u     unix 0x1f22118e7b0da49c       0t0                     ->0x3831f5ce081cda6
+ZCode\x20 1030 aldi   46u     unix 0x9e74ec91ce278f65       0t0                     ->0xf4c67679e40a02db
+ZCode\x20 1030 aldi   47u     unix 0x280b933a0d789a1d       0t0                     ->0xec470464baebf59d
+ZCode\x20 1030 aldi   48u     unix 0x9d112a1470abe484       0t0                     ->0xd521c09024c3a82a
+ZCode\x20 1030 aldi   49u     unix 0xddc8f3dfc5f09751       0t0                     ->0x7b33122477f8d813
+ZCode\x20 1030 aldi   50u     unix 0x71e749e74954455d       0t0                     ->0x54a11f75c2f4c1cc
+ZCode\x20 1030 aldi   51u     unix 0x9417c354ab139fa7       0t0                     ->0xb819e2f062858ae1
+ZCode\x20 1030 aldi   52u     unix 0x48629bb99357f4e8       0t0                     ->0x41862a6502806cbc
+ZCode\x20 1030 aldi   53u     unix 0x5e51946bb429abf7       0t0                     ->0xfb6dd9d3eff638cf

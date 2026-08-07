@@ -1,0 +1,58 @@
+# ZCode app.asar — documented external CLI surface (static, no execution)
+timestamp=2026-08-07T02:14:15Z
+## asar file list (filter: cli, server, rpc, mcp, socket, stdio)
+/node_modules/@ai-sdk/gateway/dist/index.js
+/node_modules/@ai-sdk/gateway/src/errors/gateway-internal-server-error.ts
+/node_modules/@ai-sdk/provider/dist/index.js
+/node_modules/@ai-sdk/provider-utils/dist/index.js
+/node_modules/@arms/rum-browser/lib/collector/action/click.js
+/node_modules/@arms/rum-browser/lib/collector/exception/index.js
+/node_modules/@arms/rum-browser/lib/collector/index.js
+/node_modules/@arms/rum-browser/lib/collector/longtask/index.js
+/node_modules/@arms/rum-browser/lib/index.js
+/node_modules/@arms/rum-browser/lib/reporter/index.js
+/node_modules/@arms/rum-browser/lib/types/client.js
+/node_modules/@arms/rum-browser/lib/types/index.js
+/node_modules/@arms/rum-browser/lib/utils/blank/index.js
+/node_modules/@arms/rum-core/es/index.js
+/node_modules/@arms/rum-core/es/model/client.js
+/node_modules/@arms/rum-core/es/types/client.js
+/node_modules/@arms/rum-core/lib/index.js
+/node_modules/@arms/rum-core/lib/model/client.js
+/node_modules/@arms/rum-core/lib/types/client.js
+/node_modules/@babel/code-frame/lib/index.js
+/node_modules/@babel/core/lib/config/files/index.js
+/node_modules/@babel/core/lib/config/index.js
+/node_modules/@babel/core/lib/index.js
+/node_modules/@babel/core/lib/parser/index.js
+/node_modules/@babel/core/lib/transformation/index.js
+/node_modules/@babel/generator/lib/generators/index.js
+/node_modules/@babel/generator/lib/index.js
+/node_modules/@babel/generator/lib/node/index.js
+/node_modules/@babel/helper-annotate-as-pure/lib/index.js
+/node_modules/@babel/helper-compilation-targets/lib/index.js
+/node_modules/@babel/helper-create-class-features-plugin/lib/index.js
+/node_modules/@babel/helper-member-expression-to-functions/lib/index.js
+/node_modules/@babel/helper-module-imports/lib/index.js
+/node_modules/@babel/helper-module-transforms/lib/index.js
+/node_modules/@babel/helper-optimise-call-expression/lib/index.js
+/node_modules/@babel/helper-plugin-utils/lib/index.js
+/node_modules/@babel/helper-replace-supers/lib/index.js
+/node_modules/@babel/helper-skip-transparent-expression-wrappers/lib/index.js
+/node_modules/@babel/helper-validator-identifier/lib/index.js
+/node_modules/@babel/helper-validator-option/lib/index.js
+
+## extracting candidate main files only (not whole archive)
+candidate files:
+/node_modules/@lexical/react/LexicalReactPluginHostExtension.dev.js
+/node_modules/@lexical/react/LexicalReactPluginHostExtension.dev.mjs
+/node_modules/@lexical/react/LexicalReactPluginHostExtension.js
+/node_modules/@lexical/react/LexicalReactPluginHostExtension.js.flow
+/node_modules/@lexical/react/LexicalReactPluginHostExtension.mjs
+/node_modules/@lexical/react/LexicalReactPluginHostExtension.node.mjs
+/node_modules/@lexical/react/LexicalReactPluginHostExtension.prod.js
+/node_modules/@lexical/react/LexicalReactPluginHostExtension.prod.mjs
+/node_modules/@modelcontextprotocol/sdk/dist/cjs/server/middleware/hostHeaderValidation.js
+/node_modules/@modelcontextprotocol/sdk/dist/esm/server/middleware/hostHeaderValidation.js
+
+## CLI surface strings (help/flags/json-rpc methods) in extracted files
